@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const Sauce = require("./models/Sauce");
 
 mongoose
   .connect(
@@ -27,8 +28,17 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use((req, res) => {
-  res.json({ message: "Votre requête a bien été reçue" });
+app.post("/api/sauces", (req, res, next) => {
+  delete req.body._id;
+  const sauce = new Sauce({
+    ...req.body,
+  });
+  sauce
+    .save()
+    .then(() =>
+      res.status(201).json({ message: "Sauce correctement enregistrée" })
+    )
+    .catch((error) => res.status(400).json({ error }));
 });
 
 module.exports = app;
