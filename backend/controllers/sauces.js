@@ -1,6 +1,60 @@
 const Sauce = require("../models/Sauce");
 const fs = require("fs");
 
+const addLike = (res, sauceId, userId) => {
+  Sauce.updateOne(
+    { _id: sauceId },
+    {
+      $inc: { likes: 1 },
+      $push: { usersLiked: userId },
+    }
+  )
+    .then(() => res.status(200).json({ message: "Sauce liké" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+const addDislike = (res, sauceId, userId) => {
+  Sauce.updateOne(
+    { _id: sauceId },
+    {
+      $inc: { dislikes: 1 },
+      $push: { usersDisliked: userId },
+    }
+  )
+    .then(() => res.status(200).json({ message: "Sauce non liké" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+const updateLikes = (res, sauceId, userId) => {
+  Sauce.findById({ _id: sauceId })
+    .then((sauce) => {
+      if (sauce.usersLiked.includes(userId)) {
+        Sauce.updateOne(
+          { _id: sauceId },
+          {
+            $inc: { likes: -1 },
+            $pull: { usersLiked: userId },
+          }
+        )
+          .then(() => res.status(200).json({ message: "Mis à jour" }))
+          .catch((error) => res.status(400).json({ error }));
+      }
+
+      if (sauce.usersDisliked.includes(userId)) {
+        Sauce.updateOne(
+          { _id: sauceId },
+          {
+            $inc: { dislikes: -1 },
+            $pull: { usersDisliked: userId },
+          }
+        )
+          .then(() => res.status(200).json({ message: "Mis à jour" }))
+          .catch((error) => res.status(400).json({ error }));
+      }
+    })
+    .catch((error) => res.status(400).json({ error }));
+};
+
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -9,6 +63,10 @@ exports.createSauce = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: [],
+    usersDisliked: [],
   });
   sauce
     .save()
@@ -58,4 +116,21 @@ exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
+};
+
+exports.likes = (req, res, next) => {
+  const userId = req.body.userId;
+  const sauceId = req.params.id;
+
+  switch (req.body.like) {
+    case 1:
+      addLike(res, sauceId, userId);
+      break;
+    case -1:
+      addDislike(res, sauceId, userId);
+      break;
+    case 0:
+      updateLikes(res, sauceId, userId);
+      break;
+  }
 };
