@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 const helmet = require("helmet");
-const mongoSanitize = require("mongo-sanitize");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const saucesRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
