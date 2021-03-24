@@ -1,21 +1,24 @@
 const express = require("express");
-const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const saucesRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
 
 mongoose
   .connect(
-    "mongodb+srv://ADMIN:DlicDhhIfqvb4wtG@cluster0.rs6ub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongodb+srv://User:Iw8QAzNjJZxuP6ou@cluster0.rs6ub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 const app = express();
+
+app.use(mongoSanitize());
 
 app.use(helmet());
 
