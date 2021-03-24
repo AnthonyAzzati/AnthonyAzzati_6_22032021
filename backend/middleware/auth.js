@@ -1,3 +1,5 @@
+"use strict";
+
 const jwt = require("jsonwebtoken");
 
 // vérifie le token pour authentifier la connexion

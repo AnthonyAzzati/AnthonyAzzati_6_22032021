@@ -1,3 +1,5 @@
+"use strict";
+
 const mongoose = require("mongoose");
 
 // schema mongoDb pour les sauces
