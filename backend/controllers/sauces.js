@@ -1,6 +1,7 @@
 const Sauce = require("../models/Sauce");
 const fs = require("fs");
 
+// fonction qui comptabilise un like
 const addLike = (res, sauceId, userId) => {
   Sauce.updateOne(
     { _id: sauceId },
@@ -13,6 +14,7 @@ const addLike = (res, sauceId, userId) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// fonction qui comptabilise un dislike
 const addDislike = (res, sauceId, userId) => {
   Sauce.updateOne(
     { _id: sauceId },
@@ -25,6 +27,7 @@ const addDislike = (res, sauceId, userId) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// fonction qui met à jour le compteur de likes
 const updateLikes = (res, sauceId, userId) => {
   Sauce.findById({ _id: sauceId })
     .then((sauce) => {
@@ -55,6 +58,7 @@ const updateLikes = (res, sauceId, userId) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// middleware pour créer une sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -76,6 +80,7 @@ exports.createSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// middleware pour modifier une sauce
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file
     ? {
@@ -93,6 +98,7 @@ exports.modifySauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// middleware pour supprimer une sauce
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
@@ -106,18 +112,21 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// middleware pour récupérer une sauce en fonction de son :id
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(404).json({ error }));
 };
 
+// middleware pour récupérer toutes les sauces
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
 };
 
+// middleware pour appliquer les likes aux sauces
 exports.likes = (req, res, next) => {
   const userId = req.body.userId;
   const sauceId = req.params.id;

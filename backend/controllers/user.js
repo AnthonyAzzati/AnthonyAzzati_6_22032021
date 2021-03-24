@@ -6,6 +6,8 @@ const User = require("../models/User");
 
 const checkPassword = new passwordValidator();
 
+// vérifie que le password a entre 8-100 caractères, une Majuscule,
+// une minuscule, au moins 2 chiffres et aucun espace
 checkPassword
   .is()
   .min(8)
@@ -21,6 +23,7 @@ checkPassword
   .not()
   .spaces();
 
+// middleware d'inscription
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
@@ -41,6 +44,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// middleware de connexion
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
