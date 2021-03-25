@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // schema mongoDb pour les utilisateurs
 const userSchema = mongoose.Schema({
@@ -12,4 +12,4 @@ const userSchema = mongoose.Schema({
 // permet de vérifier un email unique par utilisateur
 userSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

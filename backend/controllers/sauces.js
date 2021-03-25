@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const Sauce = require("../models/Sauce");
-const fs = require("fs");
+const Sauce = require('../models/Sauce');
+const fs = require('fs');
 
 // fonction qui comptabilise un like
 const addLike = (res, sauceId, userId) => {
@@ -12,7 +12,7 @@ const addLike = (res, sauceId, userId) => {
       $push: { usersLiked: userId },
     }
   )
-    .then(() => res.status(200).json({ message: "Sauce liké" }))
+    .then(() => res.status(200).json({ message: 'Sauce liké' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -25,7 +25,7 @@ const addDislike = (res, sauceId, userId) => {
       $push: { usersDisliked: userId },
     }
   )
-    .then(() => res.status(200).json({ message: "Sauce non liké" }))
+    .then(() => res.status(200).json({ message: 'Sauce non liké' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -41,7 +41,7 @@ const updateLikes = (res, sauceId, userId) => {
             $pull: { usersLiked: userId },
           }
         )
-          .then(() => res.status(200).json({ message: "Mis à jour" }))
+          .then(() => res.status(200).json({ message: 'Mis à jour' }))
           .catch((error) => res.status(400).json({ error }));
       }
 
@@ -53,7 +53,7 @@ const updateLikes = (res, sauceId, userId) => {
             $pull: { usersDisliked: userId },
           }
         )
-          .then(() => res.status(200).json({ message: "Mis à jour" }))
+          .then(() => res.status(200).json({ message: 'Mis à jour' }))
           .catch((error) => res.status(400).json({ error }));
       }
     })
@@ -66,7 +66,7 @@ exports.createSauce = (req, res, next) => {
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${
       req.file.filename
     }`,
     likes: 0,
@@ -77,7 +77,7 @@ exports.createSauce = (req, res, next) => {
   sauce
     .save()
     .then(() =>
-      res.status(201).json({ message: "Sauce correctement enregistrée" })
+      res.status(201).json({ message: 'Sauce correctement enregistrée' })
     )
     .catch((error) => res.status(400).json({ error }));
 };
@@ -87,7 +87,7 @@ exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${
           req.file.filename
         }`,
       }
@@ -96,7 +96,7 @@ exports.modifySauce = (req, res, next) => {
     { _id: req.params.id },
     { ...sauceObject, _id: req.params.id }
   )
-    .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
+    .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -104,10 +104,10 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      const filename = sauce.imageUrl.split("/images/")[1];
+      const filename = sauce.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
         Sauce.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: "Sauce supprimée" }))
+          .then(() => res.status(200).json({ message: 'Sauce supprimée' }))
           .catch((error) => res.status(400).json({ error }));
       });
     })
