@@ -21,4 +21,4 @@ Une fois cela fait vous pouvez vous connecter à l'application via :
 Quelques précisions :
 
 Le mot de passe que vous utiliserez doit avoir au minimum 1 Majuscule, 1 minuscule, contenir au moins un chiffre, faire entre 8 et 100 caractères et ne pas contenir d'espace.
-**Je n'ai pas accès ni à votre mail ni à votre mot de passe, ceux-ci sont masqués/cryptés dans la base de données**
+**Je n'ai pas accès ni à votre mail ni à votre mot de passe, ceux-ci sont masqués/cryptés dans la base de données.**
