@@ -1,11 +1,16 @@
+"use strict";
+
 const bcrypt = require("bcrypt");
-const jwb = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const maskData = require("maskdata");
 const passwordValidator = require("password-validator");
 
 const User = require("../models/User");
 
 const checkPassword = new passwordValidator();
 
+// vérifie que le password a entre 8-100 caractères, une Majuscule,
+// une minuscule, au moins 2 chiffres et aucun espace
 checkPassword
   .is()
   .min(8)
@@ -21,12 +26,13 @@ checkPassword
   .not()
   .spaces();
 
+// middleware d'inscription
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
       const user = new User({
-        email: req.body.email,
+        email: maskData.maskEmail2(req.body.email),
         password: hash,
       });
       if (checkPassword.validate(req.body.password)) {
@@ -41,8 +47,9 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// middleware de connexion
 exports.login = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ email: maskData.maskEmail2(req.body.email) })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé" });
@@ -55,7 +62,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwb.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
               expiresIn: "24h",
             }),
           });

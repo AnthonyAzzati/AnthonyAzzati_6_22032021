@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -8,20 +10,27 @@ const mongoSanitize = require("express-mongo-sanitize");
 const saucesRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
 
+require("dotenv").config();
+
+// Connexion à mongoDB
 mongoose
-  .connect(
-    "mongodb+srv://User:Iw8QAzNjJZxuP6ou@cluster0.rs6ub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.DB_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
+// Initialisation d'express
 const app = express();
 
+// mongo-sanitize empêche les injections SQL
 app.use(mongoSanitize());
 
+// helmet sécurise l'app en paramétrant des headers HTTP
 app.use(helmet());
 
+// headers pour le CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -35,6 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// body parsing middleware
 app.use(bodyParser.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));

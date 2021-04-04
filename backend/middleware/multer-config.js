@@ -1,3 +1,5 @@
+"use strict";
+
 const multer = require("multer");
 
 const MIME_TYPES = {
@@ -6,6 +8,7 @@ const MIME_TYPES = {
   "image/png": "png",
 };
 
+// permet de changer le nom du fichier en rajoutant la date de l'upload du fichier pour qu'il soit unique
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "images");
