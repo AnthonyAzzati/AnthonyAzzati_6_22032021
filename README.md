@@ -3,7 +3,7 @@
 Projet 6 de la formation Développeur Web avec OpenClassrooms.
 
 Pour accéder au projet il suffit de le cloner via l'adresse suivante :
-**https://github.com/AnthonyAzzati/AnthonyAzzati_6_22032021**
+- https://github.com/AnthonyAzzati/AnthonyAzzati_6_22032021
 
 Afin de le faire fonctionner vous aurez besoin de NPM, de Node.js, node-sass ainsi que d'Angular installés localement sur votre ordinateur.
 
@@ -16,7 +16,7 @@ Dans le dossier **"backend"**, exécutez dans votre console **"npm install"** pu
 Le serveur du backend devrait se lancer sur le port **"3000"**, la connexion à MongoDb s'affichera dans la console.
 
 Une fois cela fait vous pouvez vous connecter à l'application via :
-**http://localhost:4200**
+- http://localhost:4200
 
 Quelques précisions :
 
