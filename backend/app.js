@@ -10,12 +10,14 @@ const mongoSanitize = require("express-mongo-sanitize");
 const saucesRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
 
+require("dotenv").config();
+
 // Connexion à mongoDB
 mongoose
-  .connect(
-    "mongodb+srv://User:Iw8QAzNjJZxuP6ou@cluster0.rs6ub.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.DB_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
