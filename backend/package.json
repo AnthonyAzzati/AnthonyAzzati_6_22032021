@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "API REST de Piquante // Projet 6 de la formation Développeur Web OpenClassrooms",
   "main": "server.js",
   "scripts": {
