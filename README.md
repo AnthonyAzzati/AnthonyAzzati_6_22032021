@@ -7,7 +7,7 @@ Pour accéder au projet il suffit de le cloner via l'adresse suivante :
 
 Afin de le faire fonctionner vous aurez besoin de NPM, de Node.js, node-sass ainsi que d'Angular installés localement sur votre ordinateur.
 
-Récupérer le fichier **".env"** disponible avec les livrables et le placer dans le dossier **"backend"**.
+Récupérer le fichier **"process.env"** disponible avec les livrables et le placer dans le dossier **"backend"** en le renommant **".env"** (ne pas oublier le point).
 
 A la **racine** du projet, exécutez dans votre console **"npm install"** puis **"npm start"**.
 Le serveur de dévelopement Angular devrait se lancer sur le port **"4200"** (si la commande "npm start" ne fonctionne pas essayez "ng serve").
